@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>倒计时软件</title>
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #232323;
+        color: #fff;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+    h1 {
+        font-size: 48px;
+        margin-bottom: 30px;
+        letter-spacing: 2px;
+    }
+    #countdown {
+        font-size: 40vh; /* 将字体大小设置为屏幕高度的 80% */
+        margin-bottom: 50px;
+        font-weight: bold;
+    }
+    input[type="number"] {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        width: 40px;
+        margin: 5px;
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    .red {
+        color: #ff003b;
+    }
+    /* 添加新的样式来隐藏弹窗 */
+    .popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+    }
+    .popup-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    }
+    /* Styles for calculator section */
+    .calculator {
+        margin-top: 20px;
+        border: 2px solid #007bff;
+        border-radius: 10px;
+        padding: 20px;
+        width: 300px;
+    }
+    .calculator h2 {
+        font-size: 24px;
+        margin-bottom: 10px;
+    }
+    .calculator input[type="text"] {
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 2px solid #007bff;
+        width: 200px;
+        margin-right: 10px;
+    }
+    .calculator button {
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+    }
+    .calculator button:hover {
+        background-color: #0056b3;
+    }
+    .calculator p {
+        font-size: 18px;
+
+    }
+</style>
+</head>
+<body>
+
+<div id="countdown" style="font-size: 650px">00:00</div>
+
+<!-- 添加弹窗 -->
+<div id="popup" class="popup">
+    <div class="popup-content">
+        <h1 style="font-size: 280px; color: #ff003b; margin-bottom: 50px;">时间到啦</h1>
+        <button onclick="closePopup()" style="padding: 15px 30px; font-size: 24px; border-radius: 8px; background-color: #007bff; color: #fff; border: none; cursor: pointer; transition: background-color 0.3s ease;">确认</button>
+    </div>
+</div>
+
+<div style="margin-top: 10px!important;">
+    <input type="number" id="minutes" min="0" value="22" placeholder="分钟">  <!-- 设置默认时间-->
+
+    <button onclick="startCountdown()" style="background-color: #b9ff7f;color: #232323">开始</button>
+    <button id="pauseResumeButton" onclick="pauseResumeCountdown()" style="background-color: red">暂停</button>
+
+    <button onclick="resetCountdown()">清零</button>
+    <button onclick="toggleFullscreen()" style="background-color: burlywood">全屏</button>
+    <h6 style="color: #aa00ff">版权归会东职高殷海所有</h6>
+</div>
+
+<div class="calculator">
+    <h2>计算器</h2>
+    <input type="text" id="inputNumbers" placeholder="输入数字，用空格隔开">
+    <button onclick="calculateAverage()">计算平均值</button>
+    <span id="averageResult"></span>
+</div>
+
+<script>
+let countdownInterval;
+let isPaused = false;
+
+function startCountdown() {
+    clearInterval(countdownInterval);
+    const minutes = parseInt(document.getElementById("minutes").value);
+    let seconds = minutes * 60;
+
+    updateCountdownDisplay(seconds);
+
+    countdownInterval = setInterval(function() {
+        if (!isPaused) {
+            seconds--;
+            if (seconds >= 0) {
+                updateCountdownDisplay(seconds);
+                if (seconds < 60) {
+                    document.getElementById("countdown").classList.add("red");
+                } else {
+                    document.getElementById("countdown").classList.remove("red");
+                }
+            } else {
+                clearInterval(countdownInterval);
+                showCompletionMessage();
+            }
+        }
+    }, 1000);
+}
+
+function updateCountdownDisplay(seconds) {
+    const minutesDisplay = Math.floor(seconds / 60);
+    const secondsDisplay = seconds % 60;
+    document.getElementById("countdown").innerText = padZero(minutesDisplay) + ":" + padZero(secondsDisplay);
+}
+
+function padZero(number) {
+    return (number < 10 ? "0" : "") + number;
+}
+
+function showCompletionMessage() {
+    // 显示弹窗
+    document.getElementById("popup").style.display = "block";
+}
+
+function closePopup() {
+    // 关闭弹窗
+    document.getElementById("popup").style.display = "none";
+}
+
+function pauseResumeCountdown() {
+    isPaused = !isPaused;
+    const button = document.getElementById("pauseResumeButton");
+    button.innerText = isPaused ? "继续" : "暂停";
+}
+
+function toggleFullscreen() {
+    const doc = window.document;
+    const docEl = doc.documentElement;
+
+    const requestFullScreen = docEl.requestFullscreen || docEl.mozRequestFullScreen || docEl.webkitRequestFullScreen || docEl.msRequestFullscreen;
+    const cancelFullScreen = doc.exitFullscreen || doc.mozCancelFullScreen || doc.webkitExitFullscreen || doc.msExitFullscreen;
+
+    if (!doc.fullscreenElement && !doc.mozFullScreenElement && !doc.webkitFullscreenElement && !doc.msFullscreenElement) {
+        requestFullScreen.call(docEl);
+    } else {
+        cancelFullScreen.call(doc);
+    }
+}
+
+function resetCountdown() {
+    // 停止倒计时并重置显示
+    clearInterval(countdownInterval);
+    document.getElementById("countdown").innerText = "00:00";
+}
+
+function calculateAverage() {
+    const inputNumbers = document.getElementById("inputNumbers").value;
+    const numbersArray = inputNumbers.split(" ").map(Number);
+    const sum = numbersArray.reduce((total, num) => total + num, 0);
+    const average = sum / numbersArray.length;
+    document.getElementById("averageResult").innerText = "平均值为: " + average.toFixed(2);
+}
+
+</script>
+</body>
+</html>
