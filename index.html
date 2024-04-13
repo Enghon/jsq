@@ -152,6 +152,12 @@
     <button onclick="toggleFontSize()" style="background-color: #009caa;color: #232323">切换显示</button> <!-- 添加切换显示按钮 -->
 
     <button onclick="openCalculator()">计算器</button>
+    <button onclick="showZoomControl()">缩放网页</button>
+
+<div id="zoomControl" style="display: none;">
+    <input type="range" id="zoomRange" min="30" max="200" value="100" step="5" onchange="adjustZoom()" style="background-color: #ff003b">
+</div>
+
     <button onclick="toggleFullscreen()" style="background-color: burlywood">全屏</button>
     <button onclick="refreshPage()" style="background-color: #fc0227;color: #232323">刷新网页</button>
     <h4 style="color: #ffffff">©版权殷海所有</h4>
@@ -178,6 +184,15 @@
 </div>
 
 <script>
+    function showZoomControl() {
+    document.getElementById("zoomControl").style.display = "block";
+}
+
+function adjustZoom() {
+    const zoomValue = document.getElementById("zoomRange").value;
+    document.body.style.zoom = zoomValue + "%";
+}
+
 let countdownInterval;
 let elapsedTimeInterval; // 添加一个定时器用于正计时
 let isPaused = false;
