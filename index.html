@@ -28,6 +28,7 @@
     }
     #elapsedTime {
         font-size: 80px;
+        color: #b9ff7f;
     }
     input[type="number"] {
         padding: 10px;
@@ -130,7 +131,7 @@
 <!-- 添加弹窗 -->
 <div id="popup" class="popup">
     <div class="popup-content">
-        <h1 style="font-size: 280px; color: #ff003b; margin-bottom: 50px;">时间到啦</h1>
+        <h1 style="font-size: 260px; color: #ff003b; margin-bottom: 50px;">时间到啦</h1>
         <button onclick="closePopup()" style="padding: 15px 30px; font-size: 24px; border-radius: 8px; background-color: #007bff; color: #fff; border: none; cursor: pointer; transition: background-color 0.3s ease;">确认</button>
     </div>
 </div>
@@ -141,18 +142,18 @@
     <button onclick="startCountdown()" style="background-color: #b9ff7f;color: #232323">开始倒计时</button>
 
 
-    <button onclick="resetCountdown()">清零倒计时</button> <!-- 添加清零倒计时按钮 -->
-    <button onclick="startElapsedTime()">开始正计时</button> <!-- 单独开始正计时 -->
-    <button onclick="resetElapsedTime()">清零正计时</button> <!-- 单独清零正计时 -->
+    <button onclick="resetCountdown()" style="background-color: #ff7f92;color: #232323">清零倒计时</button> <!-- 添加清零倒计时按钮 -->
+    <button onclick="startElapsedTime()" style="background-color: #b9ff7f;color: #232323">开始正计时</button> <!-- 单独开始正计时 -->
+    <button onclick="resetElapsedTime()" style="background-color: #ff7f92;color: #232323">清零正计时</button> <!-- 单独清零正计时 -->
 
     <button onclick="recordTime()">记录时间</button>
-    <button onclick="clearRecordedTimes()">清除记录时间</button>
+    <button onclick="clearRecordedTimes()" style="background-color: #ff7f92;color: #232323">清除记录时间</button>
 
-    <button onclick="toggleFontSize()">切换显示</button> <!-- 添加切换显示按钮 -->
+    <button onclick="toggleFontSize()" style="background-color: #009caa;color: #232323">切换显示</button> <!-- 添加切换显示按钮 -->
 
     <button onclick="openCalculator()">计算器</button>
     <button onclick="toggleFullscreen()" style="background-color: burlywood">全屏</button>
-    <button onclick="refreshPage()">刷新网页</button>
+    <button onclick="refreshPage()" style="background-color: #fc0227;color: #232323">刷新网页</button>
     <h4 style="color: #ffffff">©版权殷海所有</h4>
 </div>
 
